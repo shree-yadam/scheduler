@@ -40,7 +40,6 @@ export default function Application(props) {
       });
   }, []);
 
-  console.log(state.interviewers);
   const appointmentList = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
     return (

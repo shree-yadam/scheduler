@@ -14,8 +14,6 @@ export function getInterview(state, interview) {
   if (interview === null) {
     return null;
   }
-  console.log(state);
-  console.log(interview);
   const updatedInterview = { ...interview };
   updatedInterview.interviewer = state.interviewers[interview.interviewer];
   return updatedInterview;
