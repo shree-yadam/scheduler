@@ -7,19 +7,27 @@ export default function useApplicationData() {
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
   const SET_INTERVIEW = "SET_INTERVIEW";
 
-  const updateRemainingSpots = function (dayName, days, appointments, book) {
+  const updateRemainingSpots = function (dayName, days, appointments) {
     const day = days.find((d) => d.name === dayName);
     let spots = day.appointments.reduce(
       (accumulator, currVal) =>
         !appointments[currVal].interview ? accumulator + 1 : accumulator,
       0
     );
-    book ? spots-- : spots++;
     const newDays = days.map((d) =>
       d.name === dayName ? { ...d, spots } : { ...d }
     );
     return newDays;
   };
+
+  const findAppointmentDay = (appointmentId, days) => {
+    for(const day of days){
+      if(day.appointments.includes(appointmentId)){
+        return day.name;
+      }
+    }
+    return undefined;
+  }
 
   function reducer(prev, action) {
     switch (action.type) {
@@ -46,11 +54,11 @@ export default function useApplicationData() {
         if (prev.appointments[action.id].interview && action.interview) {
           return {...prev, appointments};
         }
+        
         const days = updateRemainingSpots(
-          prev.day,
+          findAppointmentDay(action.id, prev.days),
           prev.days,
-          prev.appointments,
-          action.interview? true : false
+          appointments
         );
         return {...prev, appointments, days};
       }
