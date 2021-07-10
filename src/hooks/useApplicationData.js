@@ -2,7 +2,6 @@ import { useEffect, useReducer } from "react";
 import axios from "axios";
 
 export default function useApplicationData() {
-
   const SET_DAY = "SET_DAY";
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
   const SET_INTERVIEW = "SET_INTERVIEW";
@@ -21,13 +20,13 @@ export default function useApplicationData() {
   };
 
   const findAppointmentDay = (appointmentId, days) => {
-    for(const day of days){
-      if(day.appointments.includes(appointmentId)){
+    for (const day of days) {
+      if (day.appointments.includes(appointmentId)) {
         return day.name;
       }
     }
     return undefined;
-  }
+  };
 
   function reducer(prev, action) {
     switch (action.type) {
@@ -36,7 +35,7 @@ export default function useApplicationData() {
         return { ...prev, day };
       }
       case SET_APPLICATION_DATA: {
-        const days = [ ...action.days ];
+        const days = [...action.days];
         const appointments = { ...action.appointments };
         const interviewers = { ...action.interviewers };
         return { ...prev, days, appointments, interviewers };
@@ -52,15 +51,15 @@ export default function useApplicationData() {
           [action.id]: appointment,
         };
         if (prev.appointments[action.id].interview && action.interview) {
-          return {...prev, appointments};
+          return { ...prev, appointments };
         }
-        
+
         const days = updateRemainingSpots(
           findAppointmentDay(action.id, prev.days),
           prev.days,
           appointments
         );
-        return {...prev, appointments, days};
+        return { ...prev, appointments, days };
       }
       default:
         throw new Error(
@@ -79,7 +78,6 @@ export default function useApplicationData() {
   const setDay = (day) => dispatch({ type: SET_DAY, value: day });
 
   useEffect(() => {
-
     //Web socket to receive appointment updates form server
     const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
 
@@ -90,7 +88,7 @@ export default function useApplicationData() {
     socket.onmessage = (event) => {
       const msg = JSON.parse(event.data);
       if (msg.type === "SET_INTERVIEW") {
-          dispatch({...msg});
+        dispatch({ ...msg });
       }
     };
 
@@ -115,8 +113,7 @@ export default function useApplicationData() {
   }, []);
 
   function bookInterview(id, interview) {
-    return axios.put(`/api/appointments/${id}`, { interview })
-    .then((res) => {
+    return axios.put(`/api/appointments/${id}`, { interview }).then((res) => {
       dispatch({ type: SET_INTERVIEW, id, interview });
     });
   }

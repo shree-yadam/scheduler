@@ -15,13 +15,15 @@ export function getInterview(state, interview) {
     return null;
   }
   const updatedInterview = { ...interview };
-  updatedInterview.interviewer = {...state.interviewers[interview.interviewer]};
+  updatedInterview.interviewer = {
+    ...state.interviewers[interview.interviewer],
+  };
   return updatedInterview;
 }
 
 export function getInterviewersForDay(state, day) {
   const selectedDay = state.days.find((d) => d.name === day);
-  if (state.days.length === 0 ||  !selectedDay) {
+  if (state.days.length === 0 || !selectedDay) {
     return [];
   }
   const interviewers = selectedDay.interviewers.map(
