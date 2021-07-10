@@ -2,9 +2,11 @@ import { useEffect, useReducer } from "react";
 import axios from "axios";
 
 export default function useApplicationData() {
+
   const SET_DAY = "SET_DAY";
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
   const SET_INTERVIEW = "SET_INTERVIEW";
+
   const updateRemainingSpots = function (dayName, days, appointments, book) {
     const day = days.find((d) => d.name === dayName);
     let spots = day.appointments.reduce(
@@ -69,6 +71,22 @@ export default function useApplicationData() {
   const setDay = (day) => dispatch({ type: SET_DAY, value: day });
 
   useEffect(() => {
+
+    //Web socket to receive appointment updates form server
+    const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+
+    socket.onopen = (event) => {
+      socket.send("ping");
+    };
+
+    socket.onmessage = (event) => {
+      const msg = JSON.parse(event.data);
+      if (msg.type === "SET_INTERVIEW") {
+          dispatch({...msg});
+      }
+    };
+
+    //Explicit request to server
     Promise.all([
       axios.get("/api/days"),
       axios.get("/api/appointments"),
