@@ -24,6 +24,7 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
+  //usEffect to handle updating interview mode based on update from server
   useEffect(() => {
     if (mode === EMPTY && props.interview) {
       transition(SHOW);
@@ -33,6 +34,7 @@ export default function Appointment(props) {
     }
   }, [props.interview, transition, mode]);
 
+  //save new interview information and update server
   function save(name, interviewer) {
     const interview = {
       student: name,
@@ -45,6 +47,7 @@ export default function Appointment(props) {
       .catch((error) => transition(ERROR_SAVE, true));
   }
 
+  //delete interview and update server
   function deleteInterview() {
     transition(DELETING, true);
     props

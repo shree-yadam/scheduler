@@ -1,9 +1,11 @@
 import { useState } from "react";
 
+//custom hook to maintain mode and mode history for appointment component
 export default function useVisualMode(defaultMode) {
   const [mode, setMode] = useState(defaultMode);
   const [history, setHistory] = useState([defaultMode]);
 
+  //funtion to handle change of mode
   const transition = (newMode, replace = false) => {
     setMode(newMode);
     setHistory((prev) => {
@@ -16,6 +18,7 @@ export default function useVisualMode(defaultMode) {
     });
   };
 
+  //function to reverse mode to previous state
   const back = () => {
     if (history.length > 1) {
       setHistory((prev) => {

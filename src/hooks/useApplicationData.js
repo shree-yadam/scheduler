@@ -2,10 +2,12 @@ import { useEffect, useReducer } from "react";
 import axios from "axios";
 
 export default function useApplicationData() {
+  //action type for reducer
   const SET_DAY = "SET_DAY";
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
   const SET_INTERVIEW = "SET_INTERVIEW";
 
+  //Compute number of spots remaining empty for a given day
   const updateRemainingSpots = function (dayName, days, appointments) {
     const day = days.find((d) => d.name === dayName);
     let spots = day.appointments.reduce(
@@ -19,6 +21,7 @@ export default function useApplicationData() {
     return newDays;
   };
 
+  //Find the day for a given appintment ID
   const findAppointmentDay = (appointmentId, days) => {
     for (const day of days) {
       if (day.appointments.includes(appointmentId)) {
@@ -28,6 +31,7 @@ export default function useApplicationData() {
     return undefined;
   };
 
+  //reducer function to manage states
   function reducer(prev, action) {
     switch (action.type) {
       case SET_DAY: {
@@ -77,6 +81,7 @@ export default function useApplicationData() {
 
   const setDay = (day) => dispatch({ type: SET_DAY, value: day });
 
+  //use Effect to update state received from server updates or request made to server
   useEffect(() => {
     //Web socket to receive appointment updates form server
     const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);

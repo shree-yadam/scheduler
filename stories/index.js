@@ -18,8 +18,8 @@ import Confirm from "components/Appointment/Confirm";
 import Status from "components/Appointment/Status";
 import Error from "components/Appointment/Error";
 import Form from "components/Appointment/Form";
-import { act } from "@testing-library/react";
 
+//Stories for Button component
 storiesOf("Button", module)
   .addParameters({
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }],
@@ -36,6 +36,7 @@ storiesOf("Button", module)
     </Button>
   ));
 
+//Stories for DayListItem
 storiesOf("DayListItem", module)
   .addParameters({
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }],
@@ -47,6 +48,7 @@ storiesOf("DayListItem", module)
     <DayListItem name="Tuesday" setDay={action("setDay")} spots={5} />
   ));
 
+//Stories for DayList
 const days = [
   {
     id: 1,
@@ -76,6 +78,7 @@ storiesOf("DayList", module)
     <DayList days={days} day={"Tuesday"} setDay={action("setDay")} />
   ));
 
+//Stories for InterviewerListItem
 const interviewer = {
   id: 1,
   name: "Sylvia Palmer",
@@ -110,6 +113,7 @@ storiesOf("InterviewerListItem", module)
     />
   ));
 
+//Stories for InterviewerList
 const interviewers = [
   { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
   { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
@@ -136,6 +140,7 @@ storiesOf("InterviewerList", module)
     />
   ));
 
+//Stories for Appointment component, various modes
 storiesOf("Appointment", module)
   .addParameters({
     backgrounds: [{ name: "white", value: "#fff", default: true }],
