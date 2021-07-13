@@ -8,7 +8,7 @@ export default function useApplicationData() {
   const SET_INTERVIEW = "SET_INTERVIEW";
 
   //Compute number of spots remaining empty for a given day
-  const updateRemainingSpots = function (dayName, days, appointments) {
+  const computeDaywithCurrentEmptySpots = function (dayName, days, appointments) {
     const day = days.find((d) => d.name === dayName);
     let spots = day.appointments.reduce(
       (accumulator, currVal) =>
@@ -58,7 +58,7 @@ export default function useApplicationData() {
           return { ...prev, appointments };
         }
 
-        const days = updateRemainingSpots(
+        const days = computeDaywithCurrentEmptySpots(
           findAppointmentDay(action.id, prev.days),
           prev.days,
           appointments
@@ -118,16 +118,12 @@ export default function useApplicationData() {
   }, []);
 
   function bookInterview(id, interview) {
-    return axios.put(`/api/appointments/${id}`, { interview }).then((res) => {
-      dispatch({ type: SET_INTERVIEW, id, interview });
-    });
+    return axios.put(`/api/appointments/${id}`, { interview });
   }
 
   //Function to cancel selected interview
   function cancelInterview(id) {
-    return axios.delete(`/api/appointments/${id}`).then((res) => {
-      dispatch({ type: SET_INTERVIEW, id, interview: null });
-    });
+    return axios.delete(`/api/appointments/${id}`);
   }
 
   return { state, setDay, bookInterview, cancelInterview };
