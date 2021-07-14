@@ -3,7 +3,7 @@ import axios from "axios";
 import reducer, {
   SET_DAY,
   SET_APPLICATION_DATA,
-  SET_INTERVIEW
+  SET_INTERVIEW,
 } from "reducers/application";
 
 export default function useApplicationData() {

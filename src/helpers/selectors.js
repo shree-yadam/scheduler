@@ -11,7 +11,7 @@ export function getAppointmentsForDay(state, day) {
   return appointments;
 }
 
-//retrieve interviewer information from list of interviewers 
+//retrieve interviewer information from list of interviewers
 export function getInterview(state, interview) {
   if (interview === null) {
     return null;
