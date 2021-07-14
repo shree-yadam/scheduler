@@ -20,6 +20,8 @@ import {
 } from "@testing-library/react";
 
 import Application from "components/Application";
+
+//Mock websocket
 const socketObj = { onopen: () => {}, onmessage: () => {} };
 global.WebSocket = jest.fn(() => {
   return socketObj;
