@@ -1,77 +1,12 @@
 import { useEffect, useReducer } from "react";
 import axios from "axios";
+import reducer, {
+  SET_DAY,
+  SET_APPLICATION_DATA,
+  SET_INTERVIEW
+} from "reducers/application";
 
 export default function useApplicationData() {
-  //action type for reducer
-  const SET_DAY = "SET_DAY";
-  const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
-  const SET_INTERVIEW = "SET_INTERVIEW";
-
-  //Compute number of spots remaining empty for a given day
-  const computeDaywithCurrentEmptySpots = function (dayName, days, appointments) {
-    const day = days.find((d) => d.name === dayName);
-    let spots = day.appointments.reduce(
-      (accumulator, currVal) =>
-        !appointments[currVal].interview ? accumulator + 1 : accumulator,
-      0
-    );
-    const newDays = days.map((d) =>
-      d.name === dayName ? { ...d, spots } : { ...d }
-    );
-    return newDays;
-  };
-
-  //Find the day for a given appintment ID
-  const findAppointmentDay = (appointmentId, days) => {
-    for (const day of days) {
-      if (day.appointments.includes(appointmentId)) {
-        return day.name;
-      }
-    }
-    return undefined;
-  };
-
-  //reducer function to manage states
-  function reducer(prev, action) {
-    switch (action.type) {
-      case SET_DAY: {
-        const day = action.value;
-        return { ...prev, day };
-      }
-      case SET_APPLICATION_DATA: {
-        const days = [...action.days];
-        const appointments = { ...action.appointments };
-        const interviewers = { ...action.interviewers };
-        return { ...prev, days, appointments, interviewers };
-      }
-
-      case SET_INTERVIEW: {
-        const appointment = {
-          ...prev.appointments[action.id],
-          interview: action.interview ? { ...action.interview } : null,
-        };
-        const appointments = {
-          ...prev.appointments,
-          [action.id]: appointment,
-        };
-        if (prev.appointments[action.id].interview && action.interview) {
-          return { ...prev, appointments };
-        }
-
-        const days = computeDaywithCurrentEmptySpots(
-          findAppointmentDay(action.id, prev.days),
-          prev.days,
-          appointments
-        );
-        return { ...prev, appointments, days };
-      }
-      default:
-        throw new Error(
-          `Tried to reduce with unsupported action type: ${action.type}`
-        );
-    }
-  }
-
   const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
     days: [],
@@ -92,7 +27,7 @@ export default function useApplicationData() {
 
     socket.onmessage = (event) => {
       const msg = JSON.parse(event.data);
-      if (msg.type === "SET_INTERVIEW") {
+      if (msg.type === SET_INTERVIEW) {
         dispatch({ ...msg });
       }
     };
