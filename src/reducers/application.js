@@ -30,10 +30,10 @@ const findAppointmentDay = (appointmentId, days) => {
 //reducer function to manage states
 export default function reducer(state, action) {
   switch (action.type) {
-    case SET_DAY: {
-      const day = action.value;
-      return { ...state, day };
-    }
+    // case SET_DAY: {
+    //   const day = action.value;
+    //   return { ...state, day };
+    // }
     case SET_APPLICATION_DATA: {
       const days = [...action.days];
       const appointments = { ...action.appointments };
