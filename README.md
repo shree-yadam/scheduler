@@ -1,5 +1,5 @@
-# [Interview Scheduler ](https://github.com/shree-yadam/scheduler)
-[Visit APP and see it in LIVE Action!](https://github.com/shree-yadam/scheduler)
+# [Interview Scheduler ](https://scheduler-sdy-lhl.netlify.app/)
+[Visit APP and see it in LIVE Action!](https://scheduler-sdy-lhl.netlify.app/)
 
 This project is a Single Page App using React that allows users to book, edit or cancel appointments. It uses API server along with WebSocket to implement a realtime experience. When a user adds/ edits/ cancels an appointment, all clients connected to the server are updated in realtime. Axios and websockets have been used to send and receive requests and updates to and from server. Jest and Cypress are used for Unit, Integration and E2E testing. Storybook has also been used to aid in the  development of react components.
 
