@@ -12,11 +12,13 @@ export default function Form(props) {
     setInterviewer(null);
   };
 
+  //cancel edit/add request
   const cancel = function () {
     reset();
     props.onCancel();
   };
 
+  //Function to validate if student name is filled
   const validate = function () {
     if (name === "") {
       setError("Student name cannot be blank");
@@ -25,6 +27,7 @@ export default function Form(props) {
     setError("");
     props.onSave(name, interviewer);
   };
+
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">

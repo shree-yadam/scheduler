@@ -8,6 +8,7 @@ export default function DayListItem(props) {
     "day-list__item--full": props.spots === 0,
   });
 
+  //function to return a string for remaining spots display
   const formatSpots = (spots) =>
     (spots === 0 ? "no" : spots) +
     " spot" +

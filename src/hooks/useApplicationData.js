@@ -21,10 +21,12 @@ export default function useApplicationData() {
     //Web socket to receive appointment updates form server
     const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
 
+    //websocket connection open
     socket.onopen = (event) => {
       socket.send("ping");
     };
 
+    //websocket receive update message from server
     socket.onmessage = (event) => {
       const msg = JSON.parse(event.data);
       if (msg.type === SET_INTERVIEW) {
@@ -52,6 +54,7 @@ export default function useApplicationData() {
       });
   }, []);
 
+  //Function to send add/ update interview request to server
   function bookInterview(id, interview) {
     return axios.put(`/api/appointments/${id}`, { interview });
   }
